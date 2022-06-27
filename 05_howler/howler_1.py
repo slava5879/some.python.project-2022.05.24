@@ -20,15 +20,16 @@ def get_args():
                         type=str,
                         help='Input string or file')
     parser.add_argument('-o',
-                        '--outfile',
-                        help='Output filename',
-                        metavar='str',
-                        type=str,
-                        default='')
+                        '--outdir',
+                        help='--------',
+                        action='store_true')
+    parser.add_argument('-e', '--ee', help='Swith to lowercase output', action='store_true')
     args = parser.parse_args()
 
-    if os.path.isfile(args.text):
-        args.text = open(args.text).read().rstrip()
+    if os.path.isdir(args.text):
+        files = os.listdir(args.text)
+        #args.text = open(args.text).read().rstrip()
+        
     return args
 
 
@@ -36,9 +37,28 @@ def get_args():
 def main():
     """Make a jazz noise here"""
     args = get_args()
-    out_fh = open(args.outfile, 'wt') if args.outfile else sys.stdout
-    out_fh.write(args.text.upper() + '\n')
-    out_fh.close()
+    #print(args.text)
+
+    if args.outdir:
+        for file in files:
+            content = open(os.path.join(args.text,file)).read().rstrip()
+
+            out_fh = open(file, 'wt')
+
+            if args.ee:
+                out_fh.write(content.lower() + '\n')
+            else:    
+                out_fh.write(content.upper() + '\n')
+            out_fh.close()
+    else:
+        out_fh=sys.stdout
+        if args.ee:
+            out_fh.write(args.text.lower() + '\n')
+        else:
+            out_fh.write(args.text.upper() + '\n')
+        out_fh.close()
+
+
 
 
 # --------------------------------------------------
