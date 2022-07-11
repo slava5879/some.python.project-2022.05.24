@@ -17,7 +17,7 @@ def get_args():
                         nargs='*',
                         type=argparse.FileType('rt'),
                         default=[sys.stdin],
-                        help='Input file(s) (default: [<_io.TextIOWrapper name=\'<stdin>\' mode=\'r\' encoding=\'UTF-8\'>])')
+                        help='Input file(s)')
     
     return parser.parse_args()
 # --------------------------------------------------
